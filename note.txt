@@ -1,0 +1,6 @@
+Phía Client: 
+Chức năng:
+Luồng Auth: resgister, login
+Luồng Post: Hiển thị(tìm kiếm(1 cột), danh mục (Luồng Category)) , Tạo post mới (Lưu), Sửa post (Ok), Xóa post (OK)
+Luồng user: Thêm người dùng (OK), Hiển thị người dùng (OK), (Admin: Disbale người dùng k đc xóa)
+Luồng Comment: Hiển thị comment bài post (OK), Tạo comment(Lưu), cập nhật comment(ok), Xóa comment(ok)

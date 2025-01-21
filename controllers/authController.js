@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user'); // Giả lập database
+
 
 class authController {
     static async register(req, res) {
@@ -35,34 +35,22 @@ class authController {
         }
     }
 
+    static async authentication() {
+
+    }
+
     static async login(req, res) {
-        const { email, password } = req.body;
+        const token = jwt.sign({ email: req.user.email, role: req.user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // Gắn token vào req.headers để chuyển tiếp trong cùng request ( Lưu ý Client phải chịu trách nhiệm lưu token và gửi lại trong các yêu cầu tiếp theo. )
+        // req.headers['Authorization'] = token 
+        // console.log(req.headers['Authorization'])
+        return res.status(200).json({ message: 'Login successful.', token });
 
-        // Kiểm tra dữ liệu
-        if (!email || !password) {
-            return res.status(400).json({ message: 'All fields are required.' });
-        }
+    }
 
-        try {
-            // Kiểm tra người dùng
-            const existingUser = await User.findByEmail(email);
-            if (!existingUser) {
-                return res.status(400).json({ message: 'Invalid credentials.' });
-            }
+    static async logout(req, res) {
 
-            const isMatch = await bcrypt.compare(req.body.password, existingUser.password)
-            console.log(isMatch);
-            if (isMatch == false) {
-                return res.status(400).json({ message: 'Invalid credentials.' });
-            }
-
-            const token = jwt.sign({ email: existingUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            return res.status(200).json({ message: 'Login successful.', token });
-        } catch (err) {
-            console.error(err);
-            return res.status(500).json({ message: 'Server error.' });
-        }
-    } S
+    }
 }
 
 module.exports = authController;
